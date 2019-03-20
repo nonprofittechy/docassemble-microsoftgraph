@@ -1,0 +1,47 @@
+---
+comment: |
+  This interview demonstrates using Microsoft Graph API to fill-in user
+  attributes if the user exists in the Office 365 directory,
+  and retrieving a list of contacts.
+---
+modules:
+  - docassemble.microsoftgraph.msgraph
+---
+objects:
+  - o365: MSGraphConnectionObject
+  - me: Individual
+---
+question: |
+  User Principal Name (email address)
+fields:
+  - Universal Principal Name: upn
+---
+mandatory: True
+code: |
+  o365.get_user(upn,me)
+  
+  contacts = o365.get_contacts(upn)
+---
+# mandatory: True
+question: |
+  Results
+subquestion: |
+  ${json.dumps(o365.getUser(upn))}
+---
+mandatory: True
+question: |
+  Results
+subquestion: |
+  ${me.jobTitle} : ${me}
+  
+  ${me.phone}  
+  
+  ${vars(me)}
+  
+  % for contact in contacts:
+  * ${contact}
+      * ${contact.phone_number}
+      * ${contact.address.on_one_line()}.
+      * ${contact.email if defined('contact.email') else ''}
+  % endfor      
+      
