@@ -43,7 +43,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.microsoftgraph',
-      version='0.0.1',
+      version='0.0.2',
       description=('Docassemble interface for Microsoft Graph API.'),
       long_description=u'# Microsoft Graph API (Office 365) for Docassemble\r\n\r\nProvides Graph API access to Docassemble, returning Docassemble objects. E.g.,\r\nIndividual, Address, etc.\r\n\r\nWorks with application level permissions, not user permissions.\r\n\r\n## Administrator Setup\r\n\r\nCreate an application in Azure Portal following instructions [here](https://docs.microsoft.com/en-us/graph/auth-v2-service?view=graph-rest-1.0)\r\nand provide it with a set of credentials.\r\n\r\nAdd a new section to your Docassemble configuration that looks like this, replacing\r\nwith the details from your new application:\r\n\r\n```\r\nmicrosoft graph:\r\n  tenant id: xxxxxxx\r\n  client id: xxxxxxxx\r\n  client secret: xxxxxxxxx\r\n```\r\n\r\n## Implemented APIs\r\n* Get user information (with user principal name, typically email address)\r\n* Get user contacts (with upn)\r\n\r\n## Usage\r\nSee example interview, `msgraph_example.yml`',
       long_description_content_type='text/markdown',
