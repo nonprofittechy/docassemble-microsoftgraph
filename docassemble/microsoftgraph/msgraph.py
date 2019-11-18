@@ -90,6 +90,7 @@ class MSGraphConnectionObject(DAObject):
         """Will replace attributes from the given Individual object with user information from Microsoft Graph request. Returns raw JSON results
         if no Individual object is passed in the keyword argument 'who' """
         user_url = "https://graph.microsoft.com/v1.0/users/" + upn
+        user_url += "?$select=givenName,surname,mail,businessPhones,otherMails,department,jobTitle,streetAddress,city,state,postalCode,faxNumber,employeeId"
         # drq = requests.get(user_url, headers=self.authorization_header)
         # res = drq.json()
 
@@ -106,8 +107,17 @@ class MSGraphConnectionObject(DAObject):
             who.name.first = res.get('givenName')
             who.name.last = res.get('surname')
             who.email = res.get('mail')
+            who.otherMails = res.get('otherMails')
+            who.department = res.get('department')
+            who.address.address = res.get('streetAddress')
+            who.address.city = res.get('city')
+            who.address.state = res.get('state')
+            who.address.zip = res.get('postalCode')
             # if isinstance(res.get('businessPhones', None), list):
-            who.phone = next(iter(res.get('businessPhones', [])), None)
+            who.phone_number = next(iter(res.get('businessPhones', [])), None)
+            who.fax_number = res.get('faxNumber')
+            who.phone = who.phone_number # backwards compatibility
+            who.employeeId = res.get('employeeId')
             who.jobTitle = res.get('jobTitle')
 
     def get_files_in_folder(self, site, drive=None, folder=None, lazylist=None, drive_id=None):
